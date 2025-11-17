@@ -276,7 +276,7 @@ async function procesarAltaStudent() {
 	if (validarAltaStudent()) {
 		console.log("validando");
 		let respuesta = await oModelo.altaStudent(
-			new Student(null, dni, name, surname, bdate, email, tel, id_access, is_active)
+			new Student(null, dni, name, surname, tel, email, bdate, is_active, id_access, credit)
 		);
 
 		console.log("respuesta backend");
