@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--Metadatos-->
+		<meta charset="UTF-8" />
+		<meta name="author" content="GabyJuanCAngel" />
+		<meta name="keywords" content="HTML, CSS, Bootstrap" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Titulo -->
+		<title>Gestion de Datos</title>
+		<!-- Favicon-->
+		<link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+		<!--Bootstrap-->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+			crossorigin="anonymous" />
+
+		<!--mi hoja de estilos CSS-->
+		<link href="./css/custom.css" rel="stylesheet" />
+
+		<!--la libreria de iconos de BS-->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+		<!--google fonts utilizados-->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Love+Ya+Like+A+Sister&display=swap"
+			rel="stylesheet" />
+	</head>
+
+	<body class="d-flex flex-column min-vh-100">
+        <!--el top de la pagina que esta fijo-->
+		<div class="container-fluid">
+			<!-- barra superior fija-->
+			<div class="row superior d-flex justify-content-center justify-content-lg-end">
+				<!--text-md-start para alinear en tablet y desktop-->
+				<div class="col-auto mb-1 mb-md-0">
+					<!--mb margen botom, md es medium-->
+					603 99 99 99 <i class="bi bi-whatsapp me-2"></i>
+					<!--ms margin start o me margin end para el espacio entre los iconos y el texto-->
+					info@gjaacademy.com	<i class="bi bi-envelope ms-2"></i>
+				</div>
+			</div>
+			<!--barra de navegación a las otras paginas -->
+			<div class="row"> <!-- lo meti en un row para que ocupe todo el ancho. -->
+				<nav class="navbar navbar-expand-md bg-body-tertiary">
+					<div class="container-fluid">
+						<!--logo de la pagina web o marca(brand)-->
+						<a class="navbar-brand" href="#"> 
+							<img src="./img/logo.png" alt="GJA"
+								class="d-inline-block align-text-top" width="30" height="24" />
+                                Admin Page
+						</a>
+						<!--el botton toggler-->
+						<button
+							class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler"
+							aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+                        <!--submenu del boton -->
+						<div class="collapse navbar-collapse" id="navbar-toggler">
+							<!-- comportamiento de la barra por defecto: "navbar-nav me-auto mb-2 mb-lg-0"-->
+							<ul class="navbar-nav d-flex justify-content-center align-items-center">
+								<!--boton de pagina de administrador para hacer las altas aqui he quitado el boton de admin page de php-->
+								<!--Boton de la app dropdown - Modificado  por niveles ...-->
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown"
+										aria-expanded="false">	Matriculas	</a>
+									<ul class="dropdown-menu">
+										<!-- Nueva Matrícula -->
+										<li>
+											<a class="dropdown-item" href="#" id="mnuAltaEnrollment">Alta Matrícula</a>
+										</li>
+                                        <li><hr class="dropdown-divider" /></li>
+										<!-- Elementos solicitados por el usuario -->
+										<li><a class="dropdown-item" href="#" id="mnuListEnrolled">Listado Matriculados</a>
+										</li>
+										<li><a class="dropdown-item" href="#" id="mnuListByLevel">Listado por Niveles</a>
+										</li>
+                                        <li><a class="dropdown-item" href="#" id="mnuListByPayment">Listado Pagados /No Pagados</a>
+										</li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown"
+										aria-expanded="false">
+										Estudiantes
+									</a>
+                                    <ul class ="dropdown-menu">
+										<!-- estudiantes -->
+										
+										<li><a class="dropdown-item" href="#" id="mnuAltaStudent" >Alta Estudiantes</a></li>
+										<li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item" href="#" id="mnuListStudent">Listado Estudiantes(Modificar/Borrar)</a>
+										</li><a class="dropdown-item" href="#" id="mnuListActive">Listado Estudiantes Activos/Inactivos</a>
+										</li>
+                                        <li><a class="dropdown-item" href="#">Búsqueda por</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown"
+										aria-expanded="false">
+										Profesores
+									</a>
+                                    <ul class ="dropdown-menu">
+                                        <!-- profesores-->
+										
+										<li><a class="dropdown-item" href="#" id="mnuAltaTeacher" >Alta Profesores </a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+										<li><a class="dropdown-item" href="#" id="mnuListTeacher" >Listado Profesores(Modificar/Borrar)</a>
+										</li>
+										<li><a class="dropdown-item" href="#"id="mnuListByNative" > Nativo / Bilingue </a></li>
+										
+									</ul>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</nav>
+
+            	<!-- los formularios un gran contenedor para todos los formularios-->
+            
+				<div class="container" id="formularios">
+                    <div class="row justify-content-center">
+
+                    <!--elimino el action y el method dentro de la class form agregamos name y id-->
+                    <!--alta enroll-->
+                    <form class="col-12 col-lg-8 mb-4 d-none" name="frmAltaEnrollment" id="frmAltaEnrollment">
+                        <fieldset>
+                            <!--frm Name-->
+                            <legend>Datos de la Matrícula</legend>
+                            <!--form select - porque viene de un listado de otra tabla: id_student-->
+                            <div class="mb-3">
+                                <label for="id_student" class="form-label">Estudiante</label>
+                                <select class="form-select" name="id_student" id="id_student" required>
+                                    <option value="" selected disabled>-- Selecciona un Estudiante --</option>
+                                </select>
+                            </div>
+
+                            <!--form select - porque viene de un listado de otra tabla: id_teacher-->
+                            <div class="mb-3">
+                                <label for="id_teacher" class="form-label">Profesor</label>
+                                <select class="form-select" name="id_teacher" id="id_teacher" required>
+                                    <option value="" selected disabled>-- Selecciona un Profesor --</option>
+                                </select>
+                            </div>
+                            <!--form select - porque viene de un listado de otra tabla: id_language-->
+                            <div class="mb-3">
+                                <label for="id_language" class="form-label">Idioma</label>
+                                <select class="form-select" name="id_language" id="id_language" required>
+                                    <option value="" selected disabled>-- Selecciona un Idioma --</option>
+                                </select>
+                            </div>
+                            <!--form select - porque viene de un listado de otra tabla: id_level-->
+                            <div class="mb-3">
+                                <label for="id_level" class="form-label">Nivel del Curso (A2, B1, etc.)</label>
+                                <select class="form-select" name="id_level" id="id_level" required>
+                                    <option value="" selected disabled>-- Selecciona un Nivel --</option>
+                                </select>
+                            </div>
+                            <!--form tipo date para fecha: init_date-->
+                            <div class="mb-3">
+                                <label for="init_date" class="form-label">Fecha de Inicio del Curso</label>
+                                <input type="date" class="form-control" name="init_date" id="init_date" required>
+                            </div>
+                            <!--form tipo number para int que son horas: hours-->
+                            <div class="mb-3">
+                                <label for="hours" class="form-label">Horas Totales del Curso</label>
+                                <input type="number" class="form-control" name="hours" id="hours" min="1" required>
+                            </div>
+                            <!--form tipo checkbox para payment  es boolean 1 o 0 / si o no-->
+                            <div class="mb-3 form-check mt-4">
+                                <input type="checkbox" class="form-check-input" name="payment" id="payment" value="1">
+                                <label class="form-check-label" for="payment">¿Pago de Matrícula Realizado? (Marcar si)</label>
+                            </div>
+                            <!--boton submit para el alta en la clase-->
+                            <div class="mb-5 text-center">
+                                <button type="submit" class="btn btn-primary mt-4 me-2" id="btnAceptarAltaEnrollment" name="btnAceptarAltaEnrollment">
+									Registrar Matrícula</button>
+
+
+                        </fieldset>
+                    </form>
+                    <!--formularios de busqueda, frmListEnrollments-->
+                    
+                    
+                    <!--frmModificarEnroll-->
+
+
+					
+					<!--frmTeacher-->
+
+
+
+					<!--frmStudent-->
+
+
+
+                </div>
+            	</div>
+
+            <!--cierre de mi contenedor dentro de body contiene a navbar y otro -->
+			</div>
+		</div>
+			<!-- este main lo he puesto para que se muestre aqui a capa de resultados y que no quede el footer pegado al top-->
+			<main class = "flex-grow-1">
+			<!--otros contenedores de resultados-->
+			<div class=" container" id="mensajeSistema"></div>
+			<div class="container" id="resultadoBusqueda" ></div>
+			<div class="container" id="listados"></div>
+			</main>
+
+<!--Pie de pagina-->
+		<footer class="text-center py-3">
+			<p>&copy; 2025 GJA Language School. Todos los derechos reservados.</p>
+			<p>Síguenos en redes sociales:</p>
+			<a href="https://www.facebook.com" target="_blank"><i class="bi bi-facebook m-2"></i></a>
+			<a href="https://www.instragram.com" target="_blank"><i class="bi bi-instagram m-2"></i></a>
+		</footer>
+		
+        <!--para la conexion con la bd-->
+        <script type="text/javascript" src="js/ajax.js"></script>
+	    <script type="text/javascript" src="js/objetos.js"></script>
+	    <script type="text/javascript" src="js/codigo.js"></script>
+        
+        <!-- para elementos js del css -->
+        <script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+			crossorigin="anonymous">
+	
+        </script>
+
+	</body>
+</html>

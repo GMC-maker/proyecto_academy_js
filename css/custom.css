@@ -1,0 +1,254 @@
+/*colores principales de la paleta Flareon */
+/* 
+Negro base        rgb(4, 4, 4)        #040404;
+Rojo Pasion       rgb(178, 57, 65)    #B23941;
+Amarillo          rgb(245, 226, 159)  #F5E29F;
+Dorado            rgb(196, 164, 108)  #C4A46C;
+Marron            rgb(116, 92, 68)    #745C44;
+Naranja           rgb(244, 116, 76)   #F4744C;
+Azul (contraste)  rgb(0, 28, 61)      #001C3D;
+ */
+
+/* Variables CSS de Bootstrap */
+:root {
+	--bs-primary: #fb9b4c; /* Color principal - Naranja Flareon */
+	--bs-secondary: #b23941; /*Rojo Pasion*/
+	--bs-success: #c4a46c; /*Dorado*/
+	--bs-info: #02848d; /*Azul*/
+	--bs-warning: #ffd166; /*Amarillo mas intenso */
+	--bs-danger: #745c44; /*Marron*/
+	--bs-badge-color: #001c3d;
+
+	/* Color para texto (Gris oscuro) */
+	--bs-light: #f5e29f;
+	--bs-dark: #2f332b; /* fondo oscuro - texto oscuro */
+}
+
+/* colores personalizados para botones */
+.btn-primary {
+	background-color: #c4a46c;
+	border-color: #f4744c;
+	border: none;
+	color: #2f332b;
+	font-family: "Lato";
+	font-weight: bold;
+}
+.btn-info {
+	background-color: var(--bs-info);
+	color: var(--bs-light);
+	border: none;
+	font-family: "Love Ya Like A Sister", cursive;
+	font-weight: 400;
+	font-style: italic;
+}
+.btn-info:hover {
+	background-color: var(--bs-warning);
+	color: var(--bs-dark);
+}
+
+.badge-custom {
+	background-color: #001c3d !important;
+	color: white !important;
+}
+
+/*barra superior fija */
+.superior {
+	background-color: #c4a46c;
+	font-weight: bold;
+	font-size: 1rem;
+	text-align: center !important;
+}
+
+/*Estilo de la NAVBAR */
+.navbar {
+	padding: 0.5 rem;
+	background-color: #b23941 !important;
+	color: #f5e29f !important;
+}
+
+.navbar-collapse {
+	align-items: center;
+	justify-content: space-between;
+}
+
+.navbar-nav .nav-item {
+	flex: 1 1 auto;
+}
+
+.navbar-nav .nav-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100;
+}
+
+.navbar-nav .nav-link:hover {
+	background-color: #f4744c;
+	border-radius: 0.25rem;
+}
+
+.dropdown-menu {
+	background-color: #fb9b4c;
+}
+
+/* Ocultar por defecto */
+.submenu {
+	display: none;
+	position: absolute; /* Importante para que no mueva el resto del contenido */
+	z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+}
+
+/* Mostrar al pasar el ratón sobre el elemento padre (li o div) */
+.menu-item:hover .submenu {
+	display: block;
+}
+
+/* para el área de mensajes y para evitar el colapso visual */
+
+#mensajeSistema {
+    /* Reserva un espacio mínimo, empujando el footer. ¡Esto soluciona el colapso! */
+    min-height: 100px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.alert {
+    /* Estilo opcional para centrar el texto de la alerta */
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+	/*tamaño del boton se ajusta a la pantalla. */
+	.navbar-toggler {
+		padding: 0.3rem 0.3rem;
+		font-size: 1rem;
+	}
+	.navbar-toggler-icon {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+/* imágenes con misma altura y recorte */
+.fixed-img {
+	width: 100%;
+	height: 220px;
+	object-fit: cover;
+	border-radius: 0.25rem;
+	display: block;
+}
+/* tablet (md) mostrar apiladas y mayor altura */
+@media (min-width: 768px) {
+	.fixed-img {
+		height: 300px;
+	}
+}
+/* pantallas grandes ajustar altura */
+@media (min-width: 992px) {
+	.fixed-img {
+		height: 220px;
+	}
+}
+
+/* Seccion Hero*/
+
+.hero {
+	background-color: white;
+}
+.hero-imagen-frances {
+	width: 200px;
+	height: 200px;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+/* aplicar el layout flex solo en páginas con lang="en" (welcome/english),
+   así no afecta a frances2.html que usa lang="es" */
+html[lang="en"] section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.hero-imagen-ingles {
+	width: 200px;
+	height: 200px;
+	margin: 20px;
+}
+
+/*cards */
+
+.card {
+	width: 18rem;
+	border-color: #fb9b4c;
+	border-width: thick;
+	text-align: center;
+	align-items: center;
+}
+
+.card-img-top {
+	height: 200px;
+	object-fit: cover; /* recorta la imagen sin deformarla*/
+}
+
+.hero-principal h2 {
+	font-size: 1.5rem;
+	color: #2f332b;
+}
+
+/* texto titulos */
+h1,
+h2 {
+	font-family: "Love Ya Like A Sister", cursive;
+	font-weight: 400;
+	font-style: normal;
+}
+
+h2 {
+	text-align: center;
+}
+
+/* texto en el resto*/
+body {
+	font-family: "Lato", sans-serif;
+	font-weight: 400;
+	font-style: italic;
+
+	background-color: white;
+	/* Amarillo Crema #fbf0b1 */
+	/* mas dorado #C4A46C*/
+	color: #2f332b;
+}
+
+/*estilos css original */
+
+.carousel-caption h5 {
+	color: #f5e29f;
+}
+.carousel-caption p {
+	color: #f5e29f;
+	/*rgb(245, 226, 159)*/
+}
+
+footer {
+	background-color: #3e3e3e;
+	text-align: center;
+	color: #f5e29f;
+	padding: 1.5rem 0;
+}
+
+footer a {
+	color: #f4744c;
+	font-size: 1.5rem;
+}
+
+footer a:hover {
+	transform: scale(1.2);
+	color: #d84254;
+}
