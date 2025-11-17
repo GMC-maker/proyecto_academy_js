@@ -10,12 +10,18 @@ registrarEventos();
 function registrarEventos() {
 	//Opciones del menú:
 	document.querySelector("#mnuAltaEnrollment").addEventListener("click", mostrarFormulario);
+	//Alta Student
+	document.querySelector("#mnuAltaStudent").addEventListener("click", mostrarFormulario);
 
 	//Botones
 	//como originalmente es un boton submit vamos a cambiar su comportamiento:
 	frmAltaEnrollment.addEventListener("submit", (e) => {
 		e.preventDefault(); //esto cambia el comportamiento de submit.
 		procesarAltaEnrollment();
+	});
+	frmAltaStudent.addEventListener("submit", (e) => {
+		e.preventDefault(); //esto cambia el comportamiento de submit.
+		procesarAltaStudent();
 	});
 }
 
@@ -35,11 +41,16 @@ function mostrarFormulario(oEvento) {
 			actualizarDesplegableLanguage();
 			actualizarDesplegableLevel();
 			break;
+		case "mnuAltaStudent":
+			frmAltaStudent.classList.remove("d-none");
+			actualizarDesplegableAccess(); //Cargar niveles de acceso
+			break;
 	}
 }
 
 function ocultarFormularios() {
 	frmAltaEnrollment.classList.add("d-none");
+	frmAltaStudent.classList.add("d-none");
 
 	//borrado del contenido de capas con resultados
 	document.querySelector("#resultadoBusqueda").innerHTML = "";
@@ -156,6 +167,25 @@ async function actualizarDesplegableLevel(idLevelSeleccionado) {
 	}
 }
 
+async function actualizarDesplegableAccess(idAccessSeleccionado) {
+	let respuesta = await oModelo.getAccessLevels();
+	let options = "<option value=''>Seleccione Estudios Previos...</option>";
+
+	if (respuesta.ok) {
+		for (let access of respuesta.datos) {
+			if (idAccessSeleccionado && idAccessSeleccionado == access.id_access) {
+				options += "<option selected value='" + access.id_access + "' >" + access.name + "</option>";
+			} else {
+				options += "<option value='" + access.id_access + "' >" + access.name + "</option>";
+			}
+		}
+		// Esto es para asignar las options al select con id = id_access
+		frmAltaStudent.id_access.innerHTML = options;
+	} else {
+		mostrarMensajeSistema("Error al cargar niveles de acceso: " + respuesta.mensaje, false);
+	}
+}
+
 async function procesarAltaEnrollment() {
 	// Recoger datos del formulario
 	let id_student = frmAltaEnrollment.id_student.value; // el campo select se llama id_student
@@ -221,4 +251,35 @@ function validarAltaEnrollment() {
 	}
 
 	return valido;
+}
+
+async function procesarAltaStudent() {
+	// 1. Recoger datos del formulario
+	let dni = frmAltaStudent.dni.value.trim();
+	let name = frmAltaStudent.name.value.trim();
+	let surname = frmAltaStudent.surname.value.trim();
+	let bdate = frmAltaStudent.bdate.value;
+	let email = frmAltaStudent.email.value.trim();
+	let tel = frmAltaStudent.tel.value.trim();
+	let id_access = frmAltaStudent.id_access.value;
+	let is_active = frmAltaStudent.is_active.checked;
+
+	// Limpiamos mensajes anteriores
+	document.querySelector("#mensajeSistema").innerHTML = "";
+
+	// Validamos los datos del formulario
+	if (validarAltaStudent()) {
+		let respuesta = await oModelo.altaStudent(
+			new Student(null, dni, name, surname, bdate, email, tel, id_access, is_active)
+		);
+
+		//
+		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+
+		if (respuesta.ok) {
+			frmAltaStudent.reset();
+			// Ocultamos el formulario al tener éxito
+			frmAltaStudent.classList.add("d-none");
+		}
+	}
 }

@@ -88,6 +88,103 @@ class Enrollment {
 	}
 }
 
+class Student {
+	#id_student;
+	#dni;
+	#name;
+	#surname;
+	#bdate;
+	#email;
+	#tel;
+	#id_access;
+	#is_active; //boolean
+
+	constructor(id_student, dni, name, surname, bdate, email, tel, id_access, is_active) {
+		this.#id_student = id_student;
+		this.#dni = dni;
+		this.#name = name;
+		this.#surname = surname;
+		this.#bdate = bdate;
+		this.#email = email;
+		this.#tel = tel;
+		this.#id_access = id_access;
+		this.#is_active = is_active;
+	}
+
+	// Getters (solo los necesarios para el alta)
+	get id_student() {
+		return this.#id_student;
+	}
+	get dni() {
+		return this.#dni;
+	}
+	get name() {
+		return this.#name;
+	}
+	get surname() {
+		return this.#surname;
+	}
+	get bdate() {
+		return this.#bdate;
+	}
+	get email() {
+		return this.#email;
+	}
+	get tel() {
+		return this.#tel;
+	}
+	get id_access() {
+		return this.#id_access;
+	}
+	get is_active() {
+		return this.#is_active;
+	}
+	//setters
+	set id_student(id_student) {
+		this.#id_student = id_student;
+	}
+
+	set dni(dni) {
+		this.#dni = dni;
+	}
+
+	set name(name) {
+		this.#name = name;
+	}
+	set surname(surname) {
+		this.#surname = surname;
+	}
+	set bdate(bdate) {
+		this.#bdate = bdate;
+	}
+	set email(email) {
+		this.#email = email;
+	}
+	set tel(tel) {
+		this.#tel = tel;
+	}
+	set id_access(id_access) {
+		this.#id_access = id_access;
+	}
+	set is_active(is_active) {
+		this.#is_active = is_active;
+	}
+	toJSON() {
+		let oStudent = {
+			id_student: this.#id_student,
+			dni: this.#dni,
+			name: this.#name,
+			surname: this.#surname,
+			bdate: this.#bdate,
+			email: this.#email,
+			tel: this.#tel,
+			id_access: this.#id_access,
+			is_active: this.#is_active,
+		};
+		return oStudent;
+	}
+}
+
 class Modelo {
 	//alta enrollment:
 
@@ -115,6 +212,12 @@ class Modelo {
 		return respuesta;
 	}
 
+	async getAccessLevels() {
+		let datos = new FormData();
+		let respuesta = await peticionGET("get_access.php", datos);
+		return respuesta;
+	}
+
 	// MÉTODO POST PARA DAR DE ALTA UNA MATRÍCULA
 	/**
 	 * @param {Enrollment} oEnrollment - Objeto Enrollment ya validado
@@ -131,4 +234,17 @@ class Modelo {
 	}
 
 	// Aqui tenemos que añadir: alta student y alta teacher...
+	/**
+	 * @param {Student} oStudent -Objeto student validado
+	 * 
+	 */
+	async altaStudent(oStudent){
+		let datos = new FormData();
+		datos.append("student",JSON.stringify(oStudent.toObject()));
+
+		let respuesta = await peticionPOST("alta_student.php, datos");
+		return respuesta;
+	}
+
+
 }

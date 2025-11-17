@@ -201,11 +201,57 @@
 
 
 
-					<!--frmStudent-->
+					<!-- Formulario de Alta Student -->
+					<form class="col-12 col-lg-8 mb-4 d-none" name="frmAltaStudent" id="frmAltaStudent">
+						<fieldset>
+							<!--frm Name-->
+                            <legend>Datos Personales Estudiante</legend>
+							<!--el primer campo es nulo porque es autogenerado id_student-->
+                            <!--form text- recoge los datos en cada campo la mayoria tipo string-->
+						<div class="mb-3">
+							<label for="dni" class="form-label">DNI</label>
+							<input type="text" class="form-control" id="dni" name="dni" required>
+						</div>
+						<div class="mb-3">
+							<label for="name" class="form-label">Nombre</label>
+							<input type="text" class="form-control" id="name" name="name" required>
+						</div>
+						<div class="mb-3">
+							<label for="surname" class="form-label">Apellido</label>
+							<input type="text" class="form-control" id="surname" name="surname" required>
+						</div>
+							<div class="mb-3">
+							<label for="bdate" class="form-label">Fecha de Nacimiento</label>
+							<input type="date" class="form-control" id="bdate" name="bdate" required>
+						</div>
+						<div class="mb-3">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" class="form-control" id="email" name="email" required>
+						</div>
+						<div class="mb-3">
+							<label for="tel" class="form-label">Teléfono</label>
+							<input type="tel" class="form-control" id="tel" name="tel">
+						</div>
+						<!--form select - porque viene de un listado de otra tabla: id_access-->
+						<div class="mb-3">
+							<label for="id_access" class="form-label">Nivel de Acceso</label>
+							<select class="form-select" id="id_access" name="id_access" required>
+								<option value="">--Seleccione Estudios Previos</option>  
+							</select>
+						</div>
+						<!-- tipo checkbox -->
+						<div class="mb-3 form-check">
+							<input type="checkbox" class="form-check-input" id="is_active" name="is_active" checked>
+							<label class="form-check-label" for="is_active">Activo</label>
+						</div>
+						
+						<button type="submit" class="btn btn-primary">Dar de Alta</button>
+						</fieldset>
+					</form>			
 
+					<!--listados student-->
 
-
-                </div>
+                	</div>
             	</div>
 
             <!--cierre de mi contenedor dentro de body contiene a navbar y otro -->
