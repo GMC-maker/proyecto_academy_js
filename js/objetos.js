@@ -93,22 +93,24 @@ class Student {
 	#dni;
 	#name;
 	#surname;
-	#bdate;
-	#email;
 	#tel;
-	#id_access;
+	#email;
+	#bdate;
 	#is_active; //boolean
+	#id_access;
+	#credit;
 
-	constructor(id_student, dni, name, surname, bdate, email, tel, id_access, is_active) {
+	constructor(id_student, dni, name, surname, tel, email, bdate, is_active, id_access, credit) {
 		this.#id_student = id_student;
 		this.#dni = dni;
 		this.#name = name;
 		this.#surname = surname;
-		this.#bdate = bdate;
-		this.#email = email;
 		this.#tel = tel;
-		this.#id_access = id_access;
+		this.#email = email;
+		this.#bdate = bdate;
 		this.#is_active = is_active;
+		this.#id_access = id_access;
+		this.#credit = this.credit;
 	}
 
 	// Getters (solo los necesarios para el alta)
@@ -124,21 +126,25 @@ class Student {
 	get surname() {
 		return this.#surname;
 	}
-	get bdate() {
-		return this.#bdate;
+	get tel() {
+		return this.#tel;
 	}
 	get email() {
 		return this.#email;
 	}
-	get tel() {
-		return this.#tel;
-	}
-	get id_access() {
-		return this.#id_access;
+	get bdate() {
+		return this.#bdate;
 	}
 	get is_active() {
 		return this.#is_active;
 	}
+	get id_access() {
+		return this.#id_access;
+	}
+	get credit() {
+		return this.#credit;
+	}
+
 	//setters
 	set id_student(id_student) {
 		this.#id_student = id_student;
@@ -154,32 +160,37 @@ class Student {
 	set surname(surname) {
 		this.#surname = surname;
 	}
-	set bdate(bdate) {
-		this.#bdate = bdate;
+	set tel(tel) {
+		this.#tel = tel;
 	}
 	set email(email) {
 		this.#email = email;
 	}
-	set tel(tel) {
-		this.#tel = tel;
-	}
-	set id_access(id_access) {
-		this.#id_access = id_access;
+	set bdate(bdate) {
+		this.#bdate = bdate;
 	}
 	set is_active(is_active) {
 		this.#is_active = is_active;
 	}
+	set id_access(id_access) {
+		this.#id_access = id_access;
+	}
+	set credit(credit) {
+		this.#credit = credit;
+	}
+
 	toJSON() {
 		let oStudent = {
 			id_student: this.#id_student,
 			dni: this.#dni,
 			name: this.#name,
 			surname: this.#surname,
-			bdate: this.#bdate,
-			email: this.#email,
 			tel: this.#tel,
-			id_access: this.#id_access,
+			email: this.#email,
+			bdate: this.#bdate,
 			is_active: this.#is_active,
+			id_access: this.#id_access,
+			credit: this.#credit,
 		};
 		return oStudent;
 	}
@@ -218,7 +229,7 @@ class Modelo {
 		return respuesta;
 	}
 
-	// MÉTODO POST PARA DAR DE ALTA UNA MATRÍCULA
+	//----------------------------- Para alta de matricula
 	/**
 	 * @param {Enrollment} oEnrollment - Objeto Enrollment ya validado
 	 */
@@ -233,18 +244,17 @@ class Modelo {
 		return respuesta;
 	}
 
+	// --------------------Alta de estudiante
 	// Aqui tenemos que añadir: alta student y alta teacher...
 	/**
 	 * @param {Student} oStudent -Objeto student validado
-	 * 
+	 *
 	 */
-	async altaStudent(oStudent){
+	async altaStudent(oStudent) {
 		let datos = new FormData();
-		datos.append("student",JSON.stringify(oStudent.toObject()));
+		datos.append("student", JSON.stringify(oStudent));
 
-		let respuesta = await peticionPOST("alta_student.php, datos");
+		let respuesta = await peticionPOST("alta_student.php", datos);
 		return respuesta;
 	}
-
-
 }

@@ -214,7 +214,7 @@ async function procesarAltaEnrollment() {
 }
 
 function validarAltaEnrollment() {
-	// Recuperar datos del formulario frmModificarEnrollment? aun no existe?
+	// Recuperar datos del formulario frm( ver index.html)
 
 	let id_student = frmAltaEnrollment.id_student.value;
 	let id_teacher = frmAltaEnrollment.id_teacher.value;
@@ -254,32 +254,86 @@ function validarAltaEnrollment() {
 }
 
 async function procesarAltaStudent() {
-	// 1. Recoger datos del formulario
+	console.log("1. inicio");
+	// datos del formulario...
+	//recuerdo aqui no lleva id_student porque es el campo autogenerado...
 	let dni = frmAltaStudent.dni.value.trim();
 	let name = frmAltaStudent.name.value.trim();
 	let surname = frmAltaStudent.surname.value.trim();
-	let bdate = frmAltaStudent.bdate.value;
-	let email = frmAltaStudent.email.value.trim();
 	let tel = frmAltaStudent.tel.value.trim();
-	let id_access = frmAltaStudent.id_access.value;
-	let is_active = frmAltaStudent.is_active.checked;
+	console.log(`[DEBUG] Teléfono: '${tel}'`); // Muestra el valor entre comillas para ver espacios
+	console.log(`[DEBUG] Longitud del Teléfono: ${tel.length}`); // Muestra la longitud exacta
 
+	let email = frmAltaStudent.email.value.trim();
+	let bdate = frmAltaStudent.bdate.value;
+	let is_active = frmAltaStudent.is_active.checked;
+	let id_access = parseInt(frmAltaStudent.id_access.value);
+	let credit = parseFloat(frmAltaStudent.credit.value);
 	// Limpiamos mensajes anteriores
 	document.querySelector("#mensajeSistema").innerHTML = "";
 
 	// Validamos los datos del formulario
 	if (validarAltaStudent()) {
+		console.log("validando");
 		let respuesta = await oModelo.altaStudent(
 			new Student(null, dni, name, surname, bdate, email, tel, id_access, is_active)
 		);
 
+		console.log("respuesta backend");
+
 		//
 		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+		alert(respuesta.mensaje);
 
 		if (respuesta.ok) {
 			frmAltaStudent.reset();
-			// Ocultamos el formulario al tener éxito
+			// Ocultamos
 			frmAltaStudent.classList.add("d-none");
 		}
 	}
+}
+
+function validarAltaStudent() {
+	// recuperamos datos del formlario
+	let dni = frmAltaStudent.dni.value.trim();
+	let name = frmAltaStudent.name.value.trim();
+	let surname = frmAltaStudent.surname.value.trim();
+	//tel no tiene una validacion estricta tiene 9 digitos...
+	let email = frmAltaStudent.email.value.trim();
+	let bdate = frmAltaStudent.bdate.value.trim();
+	//is active viaja como boolean
+	let id_access = frmAltaStudent.id_access.value;
+
+	let valido = true;
+	let errores = "";
+
+	//Validar el select
+	if (id_access === "") {
+		valido = false;
+		errores += "Debe seleccionar una opcion del listado.\n";
+	}
+
+	//validar que no esten vacios los de texto :
+	if (dni.length === 0 || name.length === 0 || surname.length === 0) {
+		valido = false;
+		errores += "Estos campos son obligatorios<br>";
+	}
+	//fecha
+	if (bdate.length === 0) {
+		valido = false;
+		errores += "Debe introducir una fecha de nacimiento. <br>";
+	}
+
+	// Validación simple de email (solo comprueba que no está vacío)
+	if (email.length === 0) {
+		valido = false;
+		errores += "El campo Email es obligatorio.<br>";
+	}
+
+	if (!valido) {
+		mostrarMensajeSistema("Errores de Validación de Estudiante:<br>" + errores, false);
+		//alert(errores);
+	}
+
+	return valido;
 }

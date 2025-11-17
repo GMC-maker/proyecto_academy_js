@@ -219,18 +219,25 @@
 						<div class="mb-3">
 							<label for="surname" class="form-label">Apellido</label>
 							<input type="text" class="form-control" id="surname" name="surname" required>
+						
+						<div class="mb-3">
+							<label for="tel" class="form-label">Teléfono</label>
+							<input type="tel" class="form-control" id="tel" name="tel" maxlength="9">
+						</div>
+
+						<div class="mb-3">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" class="form-control" id="email" name="email" required>
+						</div>
 						</div>
 							<div class="mb-3">
 							<label for="bdate" class="form-label">Fecha de Nacimiento</label>
 							<input type="date" class="form-control" id="bdate" name="bdate" required>
 						</div>
-						<div class="mb-3">
-							<label for="email" class="form-label">Email</label>
-							<input type="email" class="form-control" id="email" name="email" required>
-						</div>
-						<div class="mb-3">
-							<label for="tel" class="form-label">Teléfono</label>
-							<input type="tel" class="form-control" id="tel" name="tel">
+						<!-- tipo checkbox -->
+						<div class="mb-3 form-check">
+							<input type="checkbox" class="form-check-input" id="is_active" name="is_active" checked>
+							<label class="form-check-label" for="is_active">Activo</label>
 						</div>
 						<!--form select - porque viene de un listado de otra tabla: id_access-->
 						<div class="mb-3">
@@ -239,13 +246,13 @@
 								<option value="">--Seleccione Estudios Previos</option>  
 							</select>
 						</div>
-						<!-- tipo checkbox -->
-						<div class="mb-3 form-check">
-							<input type="checkbox" class="form-check-input" id="is_active" name="is_active" checked>
-							<label class="form-check-label" for="is_active">Activo</label>
+						<div class="mb-3">
+							<label for="credit" class="form-label">Crédito</label>
+							<input type="number" class="form-control" id="credit" name="credit" value="0.00" step="0.01" min="0">
 						</div>
 						
-						<button type="submit" class="btn btn-primary">Dar de Alta</button>
+						
+						<button type="submit" class="btn btn-primary mt-4 me-2" id="btnAltaStudent" name="btnAltaStudent">Dar de Alta</button>
 						</fieldset>
 					</form>			
 

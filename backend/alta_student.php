@@ -8,7 +8,8 @@ $student = json_decode($_POST['student']);
 
 // 'is_active' es 'true' o 'false' (booleano)
 // Convertimos explícitamente el valor a 1 o 0 (entero).
-$is_active = (int)$student->is_active;
+$is_active_value = (int)$student->is_active;
+$credit_value = (float)$student->credit;
 
 // Creamos la consulta SQL, ojo entrecomillas porque son string:
 $sql = "INSERT INTO student VALUES(    
@@ -16,11 +17,12 @@ $sql = "INSERT INTO student VALUES(
     '$student->dni',
     '$student->name',
     '$student->surname',
-    '$student->bdate',  
-    '$student->email', 
     '$student->tel',
+    '$student->email',
+    '$student->bdate',  
+    $is_active_value,
     $student->id_access,
-    $is_active_value
+    $credit_value
 );"; 
 
 mysqli_query($conexion, $sql);
