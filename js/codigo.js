@@ -10,6 +10,15 @@ registrarEventos();
 function registrarEventos() {
 	//Opciones del menú:
 	document.querySelector("#mnuAltaEnrollment").addEventListener("click", mostrarFormulario);
+
+	document.querySelector("#mnuListEnrolled").addEventListener("click", mostrarListEnrollment);
+
+	//modificar listado sobre el icono del lapiz
+	document.querySelector("btnModificarEnrollment").addEventListener('click',mostrarFrmModificar);
+	//borrar listado sobre el icono del basurero
+	
+	//listar por campo filtrado pagados / no pagado
+
 	//Alta Student
 	document.querySelector("#mnuAltaStudent").addEventListener("click", mostrarFormulario);
 
@@ -292,6 +301,13 @@ async function procesarAltaStudent() {
 		}
 	}
 }
+//
+
+
+
+
+
+//-------------------------------todo lo de Student -----------------------
 
 function validarAltaStudent() {
 	// recuperamos datos del formlario
