@@ -10,17 +10,20 @@ registrarEventos();
 function registrarEventos() {
 	//Opciones del menú:
 	document.querySelector("#mnuAltaEnrollment").addEventListener("click", mostrarFormulario);
-
-	document.querySelector("#mnuListEnrolled").addEventListener("click", mostrarListEnrollment);
+	document.querySelector("#mnuListEnrollment").addEventListener("click", mostrarFormulario);
 
 	//modificar listado sobre el icono del lapiz
-	document.querySelector("btnModificarEnrollment").addEventListener('click',mostrarFrmModificar);
-	//borrar listado sobre el icono del basurero
-	
+	// document.querySelector("btnModificarEnrollment").addEventListener("click", mostrarFrmModificar);
+	// //borrar listado sobre el icono del basurero
 	//listar por campo filtrado pagados / no pagado
 
-	//Alta Student
+	//Student
 	document.querySelector("#mnuAltaStudent").addEventListener("click", mostrarFormulario);
+	document.querySelector("#mnuListStudent").addEventListener("click", mostrarFormulario);
+
+	//Teacher
+	document.querySelector("#mnuAltaTeacher").addEventListener("click", mostrarFormulario);
+	document.querySelector("#mnuListTeacher").addEventListener("click", mostrarFormulario);
 
 	//Botones
 	//como originalmente es un boton submit vamos a cambiar su comportamiento:
@@ -32,6 +35,37 @@ function registrarEventos() {
 		e.preventDefault(); //esto cambia el comportamiento de submit.
 		procesarAltaStudent();
 	});
+	frmAltaTeacher.addEventListener("submit", (e) => {
+		e.preventDefault(); //esto cambia el comportamiento de submit.
+		procesarAltaProfe();
+	});
+}
+
+function procesarAccionListadoEnrollment(oEvento) {
+	const target = oEvento.target;
+
+	if (target.classList.contains("btn-borrar-enrolment")) {
+		const enrollmentId = target.getAttribute("data-id");
+		if (confirm(`¿Estás seguro de que deseas eliminar la matrícula con ID: ${enrollmentId}?`)) {
+			// Llama a la función que inicia el proceso de borrado
+			borrarEnrollment(enrollmentId);
+		}
+	}
+}
+
+async function borrarEnrollment(oEvento) {
+	let boton = oEvento.target;
+	let idEnrollment = boton.dataset.id_enrollment;
+
+	let respuesta = await oModelo.borrarEnrollment(id_enrollment);
+
+	alert(respuesta.mensaje);
+
+	if (!respuesta.error) {
+		// Si NO hay error
+		// Borrado de la tabla html
+		document.querySelector("#resultadoBusqueda").innerHTML = "";
+	}
 }
 
 function mostrarFormulario(oEvento) {
@@ -50,20 +84,36 @@ function mostrarFormulario(oEvento) {
 			actualizarDesplegableLanguage();
 			actualizarDesplegableLevel();
 			break;
+
 		case "mnuAltaStudent":
 			frmAltaStudent.classList.remove("d-none");
 			actualizarDesplegableAccess(); //Cargar niveles de acceso
+			break;
+
+		case "mnuAltaTeacher":
+			frmAltaTeacher.classList.remove("d-none");
+			actualizarDesplegableLanguage();
+			break;
+		case "mnuListEnrollment":
+			listEnrollment();
+			break;
+		case "mnuListStudent":
+			listStudents();
+			break;
+		case "mnuListTeacher":
+			listProfes();
 			break;
 	}
 }
 
 function ocultarFormularios() {
 	frmAltaEnrollment.classList.add("d-none");
+	frmAltaTeacher.classList.add("d-none");
 	frmAltaStudent.classList.add("d-none");
 
 	//borrado del contenido de capas con resultados
 	document.querySelector("#resultadoBusqueda").innerHTML = "";
-	document.querySelector("#listados").innerHTML = "";
+	//document.querySelector("#listados").innerHTML = "";
 }
 
 /**
@@ -262,6 +312,90 @@ function validarAltaEnrollment() {
 	return valido;
 }
 
+//aqui revisar que no funciona....
+async function listEnrollment() {
+	//console.log("A. Se ha llamado a listEnrollment()");
+	document.querySelector("#listados").innerHTML = "Cargando listado de matriculas";
+	document.querySelector("#mensajeSistema").innerHTML = "";
+	document.querySelector("#listados").classList.remove("d-none");
+	//ocultarFormularios();
+
+	let respuesta = await oModelo.listEnrollment();
+
+	//console.log("B. Respuesta del Modelo recibida:", respuesta);
+
+	if (respuesta.ok) {
+		//console.log("C. El servidor respondió OK. Se llama a crearTablaEnrollment.");
+
+		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+		//aqui me genera el listado
+		crearTablaEnrollment(respuesta.datos);
+	} else {
+		//console.log("D. El servidor respondió con ERROR.");
+
+		document.querySelector("#listados").innerHTML = "Error al cargar";
+		alert("Error: " + respuesta.mensaje);
+	}
+}
+
+function crearTablaEnrollment(enrollments) {
+	const contenedorListado = document.querySelector("#listados");
+	if (enrollments.length === 0) {
+		contenedorListado.innerHTML = "<h2>Matrículas</h2><p>No hay matrículas registradas.</p>";
+		return;
+	}
+	// Crear el HTML de la tabla
+	let tablaHTML = `
+        <h2>Matrículas Registradas</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estudiante</th>
+                    <th>Profesor</th>
+                    <th>Idioma</th>
+                    <th>Nivel</th>
+                    <th>Fecha Inicio</th>
+                    <th>Horas</th>
+                    <th>Pagado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+	// recorremos toda la tabla:
+	enrollments.forEach((enroll) => {
+		const studentFullName = `${enroll.student_name} ${enroll.student_surname}`;
+		const teacherFullName = `${enroll.teacher_name} ${enroll.teacher_surname}`;
+		const paymentStatus = enroll.payment == 1 ? "Sí" : "No";
+		tablaHTML += `
+            <tr>
+                <td>${enroll.id_enroll}</td>
+                <td>${studentFullName}</td>
+                <td>${teacherFullName}</td>
+                <td>${enroll.language_name}</td>
+                <td>${enroll.level_name}</td>
+                <td>${enroll.init_date}</td>
+                <td>${enroll.hours}</td>
+                <td>${paymentStatus}</td>
+                <td>
+                <button type= "button" class= "btn btn-info btn-sm me-2">    
+				<i class="bi bi-pencil-square btn-modificar-enrollment text-info" viewBox = "0 0 16 16"   data-id="${enroll.id_enroll}"></i>
+                </button> 
+				<button type= "button" class= "btn btn-danger btn-sm me-2 ">    
+				<i class="bi bi-trash3-fill btn-borrar-enrollment text-danger" data-id="${enroll.id_enroll}"></i>
+                </button>
+				</td>
+            </tr>
+        `;
+	});
+	// Cerramos la tabla y la inyectamos al HTML
+	tablaHTML += `</tbody></table>`;
+	contenedorListado.innerHTML = tablaHTML;
+}
+
+//-------------------------------todo lo de Student -----------------------
 async function procesarAltaStudent() {
 	console.log("1. inicio");
 	// datos del formulario...
@@ -301,14 +435,6 @@ async function procesarAltaStudent() {
 		}
 	}
 }
-//
-
-
-
-
-
-//-------------------------------todo lo de Student -----------------------
-
 function validarAltaStudent() {
 	// recuperamos datos del formlario
 	let dni = frmAltaStudent.dni.value.trim();
@@ -352,4 +478,201 @@ function validarAltaStudent() {
 	}
 
 	return valido;
+}
+
+async function listStudents() {
+	document.querySelector("#listados").innerHTML = "Cargando listado de estudiantes";
+	document.querySelector("#mensajeSistema").innerHTML = "";
+	document.querySelector("#listados").classList.remove("d-none");
+	//ocultarFormularios();
+
+	let respuesta = await oModelo.listStudents();
+
+	//console.log("B. Respuesta del Modelo recibida:", respuesta);
+
+	if (respuesta.ok) {
+		//console.log("C. El servidor respondió OK. Se llama a crearTablaEnrollment.");
+
+		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+		//aqui me genera el listado
+		crearTablaStudents(respuesta.datos);
+	} else {
+		//console.log("D. El servidor respondió con ERROR.");
+
+		document.querySelector("#listados").innerHTML = "Error al cargar";
+		alert("Error: " + respuesta.mensaje);
+	}
+}
+
+function crearTablaStudents(students) {
+	const contenedorListado = document.querySelector("#listados");
+	if (students.length === 0) {
+		contenedorListado.innerHTML = "<h2>Estudiantes</h2><p>No hay estudiantes registrados.</p>";
+		return;
+	}
+	// Crear el HTML de la tabla
+	let tablaHTML = `
+        <h2>Estudiantes Registrados</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DNI</th>
+                    <th>Nombre Completo</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Nacimiento</th>
+                    <th>Crédito</th>
+                    <th>Activo</th>
+                    <th>Acceso (ID)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+	// recorremos toda la tabla:
+	// Recorrer los datos e insertar filas
+	students.forEach((student) => {
+		const studentFullName = `${student.name} ${student.surname}`;
+		const isActiveText = student.is_active == 1 ? "Sí" : "No";
+		const studentDataJson = JSON.stringify(student);
+		tablaHTML += `
+            <tr>
+                <td>${student.id_student}</td>
+                <td>${student.dni}</td>
+                <td>${studentFullName}</td>
+                <td>${student.email}</td>
+                <td>${student.tel}</td>
+                <td>${student.bdate}</td>
+                <td>${student.credit}</td>
+                <td>${isActiveText}</td>
+                <td>${student.id_access}</td>
+                <td>
+                    <i class="fas fa-edit btn-modificar-student" 
+                    data-student='${studentDataJson}' 
+                    data-id="${student.id_student}"></i>
+                       
+                    <i class="fas fa-trash-alt btn-borrar-student" data-id="${student.id_student}"></i>
+                </td>
+            </tr>
+        `;
+	});
+	// Cerramos la tabla y la inyectamos al HTML
+	tablaHTML += `</tbody></table>`;
+	contenedorListado.innerHTML = tablaHTML;
+}
+
+//----------------------------lo de profe-----------------------------------
+async function procesarAltaTeacher() {
+	let name = frmAltaTeacher.nombre.value;
+	let surname = frmAltaTeacher.apellido.value;
+	let mail = frmAltaTeacher.mail.value;
+	let tel = frmAltaTeacher.tel.value;
+	let salario = frmAltaTeacher.salario.value;
+	let nativo = frmAltaTeacher.nativo.checked;
+	let idioma = frmAltaTeacher.idioma.value;
+
+	// Validamos los datos del formulario
+	if (validarAltaTeacher()) {
+		console.log("validando");
+		let respuesta = await oModelo.altaTeacher(
+			new Teacher(null, name, surname, mail, tel, salario, new Date(), nativo, idioma)
+		);
+
+		console.log("respuesta backend");
+
+		//
+		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+		alert(respuesta.mensaje);
+
+		if (respuesta.ok) {
+			frmAltaProfe.reset();
+			// Ocultamos
+			frmAltaProfe.classList.add("d-none");
+		}
+	}
+}
+
+async function listProfes() {
+	document.querySelector("#listados").innerHTML = "Cargando listado de estudiantes";
+	document.querySelector("#mensajeSistema").innerHTML = "";
+	document.querySelector("#listados").classList.remove("d-none");
+	//ocultarFormularios();
+
+	let respuesta = await oModelo.listProfes();
+
+	//console.log("B. Respuesta del Modelo recibida:", respuesta);
+
+	if (respuesta.ok) {
+		//console.log("C. El servidor respondió OK. Se llama a crearTablaEnrollment.");
+
+		mostrarMensajeSistema(respuesta.mensaje, respuesta.ok);
+		//aqui me genera el listado
+		crearTablaProfes(respuesta.datos);
+	} else {
+		//console.log("D. El servidor respondió con ERROR.");
+
+		document.querySelector("#listados").innerHTML = "Error al cargar";
+		alert("Error: " + respuesta.mensaje);
+	}
+}
+
+function crearTablaProfes(profes) {
+	const contenedorListado = document.querySelector("#listados");
+	if (profes.length === 0) {
+		contenedorListado.innerHTML = "<h2>Profesores</h2><p>No hay profesores registrados.</p>";
+		return;
+	}
+
+	// Crear el encabezado de la tabla
+	let tablaHTML = `
+        <h2>Profesores Registrados</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Profesor/a</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Salario</th>
+                    <th>Nativo/a</th>
+                    <th>F. Registro</th>
+                    <th>Idioma (ID)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+	// recorremos la lista de profesores:
+	profes.forEach((teacher) => {
+		const teacherFullName = `${teacher.name} ${teacher.surname}`;
+		const isNative = teacher.native == 1 ? "Sí" : "No";
+
+		const teacherDataJson = JSON.stringify(teacher);
+
+		tablaHTML += `
+            <tr>
+                <td>${teacher.id_teacher}</td>
+                <td>${teacherFullName}</td>
+                <td>${teacher.email}</td>
+                <td>${teacher.tel}</td>
+                <td>${teacher.salary} €</td>
+                <td>${isNative}</td>
+                <td>${teacher.registered_date}</td>
+                <td>${teacher.id_language}</td>
+                <td>
+                    <i class="fas fa-edit btn-modificar-teacher" 
+                       data-teacher='${teacherDataJson}' 
+                       data-id="${teacher.id_teacher}"></i>
+                       
+                    <i class="fas fa-trash-alt btn-borrar-teacher" data-id="${teacher.id_teacher}"></i>
+                </td>
+            </tr>
+        `;
+	});
+	// Cerramos la tabla y la inyectamos al HTML
+	tablaHTML += `</tbody></table>`;
+	contenedorListado.innerHTML = tablaHTML;
 }

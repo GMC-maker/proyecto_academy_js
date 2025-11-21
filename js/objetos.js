@@ -196,6 +196,117 @@ class Student {
 	}
 }
 
+class Teacher {
+	#id_teacher;
+	#name;
+	#surname;
+	#email;
+	#tel;
+	#salary;
+	#registered_date;
+	#native;
+	#id_language;
+
+	constructor(id_teacher, name, surname, email, tel, salary, registered_date, native, id_language) {
+		this.id_teacher = id_teacher;
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.tel = tel;
+		this.salary = salary;
+		this.registered_date = registered_date;
+		this.native = native;
+		this.id_language = id_language;
+	}
+
+	get id_teacher() {
+		return this.#id_teacher;
+	}
+
+	get name() {
+		return this.#name;
+	}
+
+	get surname() {
+		return this.#surname;
+	}
+
+	get email() {
+		return this.#email;
+	}
+
+	get tel() {
+		return this.#tel;
+	}
+
+	get salary() {
+		return this.#salary;
+	}
+
+	get registered_date() {
+		return this.registered_date;
+	}
+
+	get native() {
+		return this.#native;
+	}
+
+	get id_language() {
+		return this.#id_language;
+	}
+
+	set id_teacher(id) {
+		this.#id_teacher = id;
+	}
+
+	set name(nom) {
+		this.#name = nom;
+	}
+
+	set surname(surname) {
+		this.#surname = surname;
+	}
+
+	set email(mail) {
+		this.#email = mail;
+	}
+
+	set tel(tel) {
+		this.#tel = tel;
+	}
+
+	set salary(salario) {
+		this.#salary = salario;
+	}
+
+	set registered_date(date) {
+		this.#registered_date = date;
+	}
+
+	set native(native) {
+		this.#native = native;
+	}
+
+	set id_language(id) {
+		this.#id_language = id;
+	}
+
+	toJSON() {
+		let oTeacher = {
+			id_teacher: this.#id_teacher,
+			name: this.#name,
+			surname: this.#surname,
+			email: this.#email,
+			tel: this.#tel,
+			salary: this.#salary,
+			registered_date: this.#registered_date,
+			native: this.#native,
+			id_language: this.#id_language,
+		};
+		return oTeacher;
+	}
+}
+
 class Modelo {
 	//alta enrollment:
 
@@ -243,6 +354,12 @@ class Modelo {
 		let respuesta = await peticionPOST("alta_enrollment.php", datos);
 		return respuesta;
 	}
+	async listEnrollment() {
+		let datos = new FormData();
+		//ahora usaremos GET para llamar la info
+		let respuesta = await peticionGET("list_enrollments.php", datos);
+		return respuesta;
+	}
 
 	// --------------------Alta de estudiante
 	// Aqui tenemos que añadir: alta student y alta teacher...
@@ -255,6 +372,34 @@ class Modelo {
 		datos.append("student", JSON.stringify(oStudent));
 
 		let respuesta = await peticionPOST("alta_student.php", datos);
+		return respuesta;
+	}
+
+	async listStudents() {
+		let datos = new FormData();
+		//ahora usaremos GET para llamar la info
+		let respuesta = await peticionGET("list_students.php", datos);
+		return respuesta;
+	}
+
+	// --------------------Alta de teacher
+	// Aqui tenemos que añadir: alta student y alta teacher...
+	/**
+	 * @param {Teacher} oTeacher -Objeto student validado
+	 *
+	 */
+	async altaTeacher(oTeacher) {
+		let datos = new FormData();
+		datos.append("teacher", JSON.stringify(oTeacher));
+
+		let respuesta = await peticionPOST("alta_teacher.php", datos);
+		return respuesta;
+	}
+
+	async listProfes() {
+		let datos = new FormData();
+		//ahora usaremos GET para llamar la info
+		let respuesta = await peticionGET("list_teachers.php", datos);
 		return respuesta;
 	}
 }

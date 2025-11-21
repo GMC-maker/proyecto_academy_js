@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 16-11-2025 a las 19:04:16
+-- Tiempo de generación: 21-11-2025 a las 22:50:46
 -- Versión del servidor: 8.0.43
 -- Versión de PHP: 8.3.26
 
@@ -70,7 +70,14 @@ INSERT INTO `enrollment` (`id_enroll`, `id_student`, `id_teacher`, `id_language`
 (2, 5, 1, 1, 5, '2025-11-15', 80, 1),
 (3, 2, 3, 1, 1, '2025-11-14', 30, 1),
 (4, 4, 6, 2, 2, '2025-11-14', 300, 0),
-(5, 5, 5, 2, 4, '2025-11-14', 100, 1);
+(5, 5, 5, 2, 4, '2025-11-14', 100, 1),
+(6, 2, 2, 1, 1, '2025-11-04', 150, 1),
+(7, 2, 1, 1, 5, '2025-11-17', 200, 1),
+(8, 2, 2, 1, 2, '2025-11-08', 222, 0),
+(9, 3, 4, 2, 3, '2025-11-08', 300, 1),
+(10, 5, 5, 2, 4, '2025-11-03', 200, 1),
+(11, 4, 5, 2, 2, '2025-11-10', 50, 1),
+(12, 7, 4, 2, 1, '2025-11-24', 15, 1);
 
 -- --------------------------------------------------------
 
@@ -142,7 +149,9 @@ INSERT INTO `student` (`id_student`, `dni`, `name`, `surname`, `tel`, `email`, `
 (2, 'Y9977888X', 'Gabriela Maria', 'Celano', '666777888', 'xgceldia796@ieshnosmachado.org', '1984-04-13', 1, 6, 300),
 (3, 'Z5566999Y', 'Andrea', 'Pelucci', '666777999', 'italiano@gmail.com', '1989-04-12', 0, 2, 500),
 (4, '10200900A', 'Alaia', 'Solis', '666777666', 'alaia.zep.solis@gmail.com', '2000-08-11', 1, 3, 400),
-(5, '10200900B', 'Remy', 'Fernandez', '666777555', 'ratatouille@gmail.com', '2015-07-10', 1, 3, 100);
+(5, '10200900B', 'Remy', 'Fernandez', '666777555', 'ratatouille@gmail.com', '2015-07-10', 1, 3, 100),
+(6, '10200301A', 'Benito', 'Perez', '123456789', 'esteban@correo.es', '2010-06-17', 1, 4, 0),
+(7, '25800123L', 'Prueba', 'Tonton', '147852369', 'alan@brito.es', '2015-07-08', 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -235,7 +244,7 @@ ALTER TABLE `access`
 -- AUTO_INCREMENT de la tabla `enrollment`
 --
 ALTER TABLE `enrollment`
-  MODIFY `id_enroll` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_enroll` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `language`
@@ -253,7 +262,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT de la tabla `student`
 --
 ALTER TABLE `student`
-  MODIFY `id_student` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_student` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `teacher`
